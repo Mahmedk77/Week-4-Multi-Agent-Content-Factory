@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import z from "zod";
 import { streamRun } from "@/server/runStream";
 import { jsonError, readJson, sseResponse } from "@/server/sse";
+import { lockedResponse } from "@/server/guard";
 
 export const runtime = "nodejs"; // pg does not run on the edge runtime
 export const dynamic = "force-dynamic";
@@ -11,6 +12,9 @@ const Body = z.object({ topic: z.string().trim().min(1).max(200) });
 
 // POST /api/runs  { topic }  ->  SSE: thread, node*, then interrupt | error
 export async function POST(request: Request) {
+    const locked = await lockedResponse(); // passcode check (also done in src/proxy.ts)
+    if (locked) return locked;
+
     const body = Body.safeParse(await readJson(request));
     if (!body.success) return jsonError(400, "topic must be 1-200 characters");
 

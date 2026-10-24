@@ -1,6 +1,8 @@
 import "server-only";
 import type { Post } from "@/lib/run-types";
 import { bodyOf, previewOf, wordCount } from "@/lib/text";
+import { redirect } from "next/navigation";
+import { unlocked } from "@/server/guard";
 import { listPosts } from "@/server/posts";
 import { ButtonLink } from "../Button";
 import { DocIcon } from "../icons";
@@ -44,6 +46,8 @@ function toItem(p: Post): PostItem {
 
 // The page fills the viewport (data-fit-viewport) and only the list scrolls, so the header stays put.
 export async function PostsView({ status }: { status: Post["status"] }) {
+    // Passcode check (also done in src/proxy.ts): this page reads the database directly.
+    if (!(await unlocked())) redirect(`/unlock?next=/${status === "published" ? "published" : "drafts"}`);
     const copy = COPY[status];
     let items: PostItem[] | null = null;
     let loadError: string | null = null;

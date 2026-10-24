@@ -1,12 +1,16 @@
 import { deletePost } from "@/server/posts";
 import { jsonError } from "@/server/sse";
 import { readUuidParam } from "@/server/threadId";
+import { lockedResponse } from "@/server/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 // DELETE /api/posts/[id]  ->  204, or 404 when no post has that id
 export async function DELETE(_request: Request, ctx: RouteContext<"/api/posts/[id]">) {
+    const locked = await lockedResponse(); // passcode check (also done in src/proxy.ts)
+    if (locked) return locked;
+
     const id = await readUuidParam(ctx.params);
     if (!id) return jsonError(400, "invalid post id");
 

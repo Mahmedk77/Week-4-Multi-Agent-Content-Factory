@@ -1,12 +1,16 @@
 import type { NextRequest } from "next/server";
 import { listPosts } from "@/server/posts";
 import { jsonError } from "@/server/sse";
+import { lockedResponse } from "@/server/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 // GET /api/posts?status=published|draft  ->  Post[] newest first
 export async function GET(request: NextRequest) {
+    const locked = await lockedResponse(); // passcode check (also done in src/proxy.ts)
+    if (locked) return locked;
+
     const status = request.nextUrl.searchParams.get("status");
     if (status !== "published" && status !== "draft") return jsonError(400, 'status must be "published" or "draft"');
 

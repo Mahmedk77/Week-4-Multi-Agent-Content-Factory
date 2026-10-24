@@ -46,6 +46,10 @@
   }
 }
 
+/* Bare pages (the passcode screen) show no app nav at all. */
+body:has([data-bare]) [data-app-chrome] { display: none; }
+body:has([data-bare]) .m-tabbar-space { padding-bottom: 0; }
+
 /* ---- Mobile app chrome (below 640px): top bar + fixed bottom tab bar ---- */
 /* Room for the tab bar (and the iPhone home indicator) under the page content. */
 @media (max-width: 639px) {

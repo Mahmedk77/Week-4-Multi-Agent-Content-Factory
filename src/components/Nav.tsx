@@ -27,7 +27,7 @@ export function Nav() {
     const pathname = usePathname();
     return (
         <>
-            <header className="hidden sm:flex flex-wrap gap-3 items-center justify-between px-10 py-4 border-b border-line">
+            <header data-app-chrome className="hidden sm:flex flex-wrap gap-3 items-center justify-between px-10 py-4 border-b border-line">
                 <Brand />
                 <nav aria-label="Main" className="flex gap-1 items-center">
                     {LINKS.map((l) => {
@@ -48,12 +48,13 @@ export function Nav() {
                 </nav>
             </header>
 
-            <header data-mobile-chrome className="sm:hidden flex items-center justify-between px-5 pt-3 pb-2">
+            <header data-app-chrome data-mobile-chrome className="sm:hidden flex items-center justify-between px-5 pt-3 pb-2">
                 <Brand />
                 <ThemeToggle variant="tile" />
             </header>
 
             <nav
+                data-app-chrome
                 data-mobile-chrome
                 aria-label="Main"
                 className="sm:hidden fixed inset-x-0 bottom-0 z-20 grid grid-cols-3 gap-1 px-3 pt-2 pb-[calc(12px+env(safe-area-inset-bottom))] bg-surface border-t border-line"

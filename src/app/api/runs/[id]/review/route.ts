@@ -4,6 +4,7 @@ import { getRunStatus } from "@/server/runStatus";
 import { streamRun } from "@/server/runStream";
 import { jsonError, readJson, sseResponse } from "@/server/sse";
 import { readUuidParam } from "@/server/threadId";
+import { lockedResponse } from "@/server/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -11,6 +12,9 @@ export const maxDuration = 120;
 
 // POST /api/runs/[id]/review  { action, editedDraft? }  ->  SSE: node*, then done | error
 export async function POST(request: Request, ctx: RouteContext<"/api/runs/[id]/review">) {
+    const locked = await lockedResponse(); // passcode check (also done in src/proxy.ts)
+    if (locked) return locked;
+
     const thread_id = await readUuidParam(ctx.params);
     if (!thread_id) return jsonError(400, "invalid run id");
 
