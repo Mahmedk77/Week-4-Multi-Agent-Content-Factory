@@ -116,21 +116,6 @@ Every route except `/api/unlock` needs the unlock cookie (see "Passcode lock" be
 | `DELETE /api/posts/[id]` | Deletes a post and its run's checkpoints |
 | `POST /api/unlock` `{ passcode }` | Sets the unlock cookie |
 
-## Passcode lock
-
-The app spends a paid OpenAI key, so the whole site is private:
-
-- `src/proxy.ts` redirects every page to `/unlock` and answers every API call with `401` until the visitor has a valid unlock cookie. Each API route checks the cookie again.
-- The cookie is an HMAC of `SITE_PASSCODE` (HttpOnly, 30 days). It can't be forged, and changing the passcode signs every browser out.
-- Wrong passcodes are limited to **5 per IP per 15 minutes**, counted in the `unlock_attempts` table (only hashed IPs are stored).
-
-## Deploying on Vercel
-
-1. Import the repo in Vercel.
-2. Add every variable from `.env.example` in Project → Settings → Environment Variables, including a long `SITE_PASSCODE`.
-3. Run the two setup scripts against the same Supabase project (once).
-4. A full run takes about 30 to 60 seconds. The streaming routes allow up to 300 seconds, so check your plan's function duration limit.
-
 ## Project structure
 
 ```
@@ -144,8 +129,3 @@ src/
 scripts/         CLI runners, checks and setup scripts
 design/          UI design spec and mockups
 ```
-
-## Known quirks
-
-- The critic can be lenient (it may miss an unsupported number). The human review is the backstop.
-- LLM text occasionally contains glued words (for example `panelsstand`). The cause is still being investigated; the UI deliberately does not try to repair text.
