@@ -22,6 +22,7 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-    // Everything except Next's static assets and image files (those must load on the unlock page too).
-    matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)"],
+    // Everything except Next's static assets, images and the web manifest. Those must load on the unlock
+    // page too, and link previews (opengraph-image.png) must work for visitors who aren't unlocked.
+    matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|webmanifest)$).*)"],
 };
