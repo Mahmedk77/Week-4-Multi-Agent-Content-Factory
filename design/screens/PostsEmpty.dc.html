@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Drafts, empty</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./base.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="app" style="min-height: 760px">
+  <header class="nav">
+    <a class="brand" href="Main.dc.html"><span class="brand-mark"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 11.5L8 4l5.5 7.5"/><circle cx="2.5" cy="11.5" r="1.2" fill="currentColor"/><circle cx="8" cy="4" r="1.2" fill="currentColor"/><circle cx="13.5" cy="11.5" r="1.2" fill="currentColor"/></svg></span>Draftloom</a>
+    <nav class="nav-links" aria-label="Main">
+      <a class="nav-link" href="Main.dc.html">New</a>
+      <a class="nav-link" href="Posts.dc.html">Published</a>
+      <a class="nav-link on" href="PostsEmpty.dc.html" aria-current="page">Drafts</a>
+    </nav>
+  </header>
+
+  <main class="page" style="padding-top: 48px; padding-bottom: 64px; max-width: 920px">
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between; margin-bottom: 24px">
+      <div>
+        <h1 class="serif" style="font-size: 40px; line-height: 1.1; font-weight: 500; letter-spacing: -0.015em; margin: 0">Drafts</h1>
+        <p class="small" style="margin: 6px 0 0">Rejected runs are saved here</p>
+      </div>
+      <div class="tabs" role="navigation" aria-label="Post lists">
+        <a class="tab" href="Posts.dc.html">Published</a>
+        <a class="tab on" href="PostsEmpty.dc.html" aria-current="page">Drafts</a>
+      </div>
+    </div>
+
+    <section class="card" style="padding: 72px 32px; text-align: center">
+      <div style="width: 56px; height: 56px; border-radius: 16px; background: var(--surface2); color: var(--muted); display: grid; place-items: center; margin: 0 auto 20px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/></svg></div>
+      <h2 class="h2">No drafts yet</h2>
+      <p class="lede" style="margin: 8px auto 0; font-size: 16px">When you reject a run, your edited version is saved here instead of being published.</p>
+      <div style="margin-top: 28px"><a class="btn btn-primary" href="Main.dc.html">Start a run</a></div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":760}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

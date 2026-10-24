@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mobile critic sheet</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./base.css">
+<link rel="stylesheet" href="./mobile.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="m-root">
+  <dc-import name="MobileReview" hint-size="390px,844px"></dc-import>
+  <div class="m-scrim"></div>
+
+  <div class="m-sheet" role="dialog" aria-modal="true" aria-labelledby="ct">
+    <div class="m-grab"></div>
+    <div style="padding: 8px 20px 0">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
+        <h2 id="ct" class="serif" style="font-size: 24px; line-height: 1.2; font-weight: 600; margin: 0">Issues found in the first draft</h2>
+        <button type="button" class="m-icon-btn" aria-label="Close" style="flex: none; border-radius: 50%; width: 40px; height: 40px; background: var(--surface2); border: 0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <p class="small" style="margin: 6px 0 0">Checked before the automatic rewrite, so some issues may already be fixed.</p>
+
+      <div style="display: flex; align-items: center; gap: 14px; margin-top: 16px; padding: 12px 16px; background: var(--surface2); border-radius: 16px">
+        <span class="score">7<span style="font-size: 20px; color: var(--muted)"> / 10</span></span>
+        <span class="small">Critic score for the first draft</span>
+      </div>
+
+      <h3 style="font-size: 13px; font-weight: 600; margin: 18px 0 2px; display: flex; gap: 8px; align-items: center">Factual issues <span class="chip chip-warn">2</span></h3>
+      <div class="issue"><span class="bullet"></span><span>Says the prototype range is "over 1,200 km". The notes only support "more than 900 km".</span></div>
+      <div class="issue"><span class="bullet"></span><span>States that production begins in 2026. The notes give 2027 to 2028.</span></div>
+
+      <h3 style="font-size: 13px; font-weight: 600; margin: 14px 0 2px; display: flex; gap: 8px; align-items: center">Style notes <span class="chip">2</span></h3>
+      <div class="issue"><span class="bullet soft"></span><span>The opening sentence is long. Consider splitting it in two.</span></div>
+      <div class="issue"><span class="bullet soft"></span><span>"Racing to bring them to market" is vague. Name one example if the notes allow.</span></div>
+    </div>
+    <div style="padding: 14px 16px 26px"><button type="button" class="m-btn primary">Back to the draft</button></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

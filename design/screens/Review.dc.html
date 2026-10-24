@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Review</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./base.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="app {{themeClass}}" style="min-height: 1100px">
+  <header class="nav">
+    <a class="brand" href="Main.dc.html"><span class="brand-mark"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 11.5L8 4l5.5 7.5"/><circle cx="2.5" cy="11.5" r="1.2" fill="currentColor"/><circle cx="8" cy="4" r="1.2" fill="currentColor"/><circle cx="13.5" cy="11.5" r="1.2" fill="currentColor"/></svg></span>Draftloom</a>
+    <nav class="nav-links" aria-label="Main">
+      <a class="nav-link on" href="Main.dc.html" aria-current="page">New</a>
+      <a class="nav-link" href="Posts.dc.html">Published</a>
+      <a class="nav-link" href="PostsEmpty.dc.html">Drafts</a>
+    </nav>
+  </header>
+
+  <main class="page" style="padding-top: 40px; padding-bottom: 56px">
+    <div style="display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; align-items: flex-end; margin-bottom: 20px">
+      <div style="min-width: 0">
+        <p class="eyebrow" style="margin-bottom: 10px">Waiting for your review</p>
+        <h1 class="serif" style="font-size: 36px; line-height: 1.15; font-weight: 500; letter-spacing: -0.015em; margin: 0">Review the draft</h1>
+        <p class="small" style="margin: 6px 0 0">Topic: How solid-state batteries could change electric cars</p>
+      </div>
+    </div>
+
+    <ol class="flat" style="display: flex; flex-wrap: wrap; gap: 8px 28px; align-items: center; padding: 12px 18px; list-style: none; margin: 0 0 24px; font-size: 14px" aria-label="Pipeline summary">
+      <li style="display: inline-flex; gap: 8px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Researcher</li>
+      <li style="display: inline-flex; gap: 8px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Writer</li>
+      <li style="display: inline-flex; gap: 8px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Critic</li>
+      <li style="display: inline-flex; gap: 8px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Rewriter <span class="small">ran once</span></li>
+      <li class="chip chip-ok" style="margin-left: auto; padding: 5px 12px; font-size: 13px"><span class="spin" style="width: 10px; height: 10px; border-width: 2px" aria-hidden="true"></span>Your review</li>
+    </ol>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+      <section class="card" style="flex: 999 1 560px; min-width: 0" aria-label="Draft">
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; padding: 14px 24px; border-bottom: 1px solid var(--line)">
+          <div style="display: flex; align-items: baseline; gap: 12px">
+            <h2 class="h2" style="font-size: 20px">Draft</h2>
+            <span class="small mono" aria-live="polite">143 words</span>
+          </div>
+          <div class="seg" role="group" aria-label="View">
+            <button type="button" class="on" aria-pressed="true">Edit</button>
+            <button type="button" aria-pressed="false">Preview</button>
+          </div>
+        </div>
+        <label for="draft" style="position: absolute; left: -9999px">Draft text (markdown)</label>
+        <textarea class="editor" id="draft" rows="19"># Solid-State Batteries: What Changes for Electric Cars
+
+Solid-state batteries replace the liquid electrolyte in today's lithium-ion cells with a solid material. That swap promises higher energy density, faster charging and a lower risk of fire, which is why most major automakers are racing to bring them to market.
+
+Prototype cells have shown ranges of more than 900 km in testing, though real-world figures will depend on pack design and vehicle weight. Charging from 10 to 80 percent in about ten minutes has been demonstrated in laboratory conditions.
+
+Manufacturing is the main obstacle. Solid electrolytes are hard to produce at scale, and early cells have struggled with cracking over repeated charge cycles. Several companies now target limited production between 2027 and 2028.
+
+## Sources
+- Solid-state battery progress report: battery-journal.example/progress
+- Automaker roadmaps compared: autowire.example/roadmaps
+- Fast-charge lab results: electrochem-weekly.example/fast-charge</textarea>
+      </section>
+
+      <aside class="card" style="flex: 1 1 340px; max-width: 420px; min-width: 0; padding: 24px" aria-labelledby="critic">
+        <h2 class="h2" id="critic" style="font-size: 20px">Issues found in the first draft</h2>
+        <p class="small" style="margin: 6px 0 0">This check ran before the automatic rewrite. The draft on the left was rewritten once, so some issues may already be fixed.</p>
+
+        <div style="display: flex; align-items: center; gap: 14px; margin-top: 20px; padding: 14px 16px; background: var(--surface2); border-radius: 12px">
+          <span class="score">7<span style="font-size: 20px; color: var(--muted)"> / 10</span></span>
+          <span class="small" style="line-height: 1.35">Critic score for the first draft</span>
+        </div>
+
+        <h3 style="font-size: 13px; font-weight: 600; margin: 22px 0 4px; display: flex; align-items: center; gap: 8px">Factual issues <span class="chip chip-warn">2</span></h3>
+        <div>
+          <div class="issue"><span class="bullet"></span><span>Says the prototype range is "over 1,200 km". The research notes only support "more than 900 km".</span></div>
+          <div class="issue"><span class="bullet"></span><span>States that production begins in 2026. The notes give 2027 to 2028.</span></div>
+        </div>
+
+        <h3 style="font-size: 13px; font-weight: 600; margin: 18px 0 4px; display: flex; align-items: center; gap: 8px">Style notes <span class="chip">2</span></h3>
+        <div>
+          <div class="issue"><span class="bullet soft"></span><span>The opening sentence is long. Consider splitting it in two.</span></div>
+          <div class="issue"><span class="bullet soft"></span><span>"Racing to bring them to market" is vague. Name one example if the notes allow.</span></div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="card" style="margin-top: 24px" aria-label="Decision">
+      <div class="actionbar">
+        <p class="small" style="margin: 0; max-width: 360px">Your edits are sent with either choice. Nothing is published until you approve.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 24px">
+          <div style="display: flex; flex-direction: column; gap: 6px; align-items: stretch; max-width: 220px">
+            <button type="button" class="btn btn-secondary">Reject</button>
+            <span class="small">Don't publish. Save this version as a draft.</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; align-items: stretch; max-width: 220px">
+            <button type="button" class="btn btn-primary">Approve</button>
+            <span class="small">Publish this version.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":1280,"height":1100}}'>
+class Component extends DCLogic {
+renderVals() {
+return { themeClass: this.props.dark ? 'dark' : '' };
+}
+}
+</script>
+</body>
+</html>

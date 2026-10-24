@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error and edge states</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./base.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="app" style="min-height: 1000px">
+  <main class="page" style="padding-top: 48px; padding-bottom: 64px">
+    <p class="eyebrow">States</p>
+    <h1 class="serif" style="font-size: 36px; line-height: 1.15; font-weight: 500; letter-spacing: -0.015em; margin: 0 0 8px">When things don't go to plan</h1>
+    <p class="small" style="margin: 0 0 32px">Each state keeps the user's context on screen and offers one clear next action.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+
+      <section class="card" style="padding: 24px">
+        <p class="mono small" style="margin: 0 0 16px">RUN FAILED</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; margin-bottom: 18px">
+          <span style="display: inline-flex; gap: 6px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Researcher</span>
+          <span style="display: inline-flex; gap: 6px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Writer</span>
+          <span style="display: inline-flex; gap: 6px; align-items: center; color: var(--danger); font-weight: 600"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>Critic</span>
+          <span class="small">Rewriter</span>
+          <span class="small">Your review</span>
+        </div>
+        <div class="notice notice-danger" role="alert">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16v.5"/></svg>
+          <div>
+            <div style="font-weight: 600">The run failed at the critic</div>
+            <div class="small mono" style="margin-top: 6px; color: var(--ink); overflow-wrap: anywhere">Model request timed out after 30s</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap">
+          <button type="button" class="btn btn-primary">Try again</button>
+          <span class="small" style="align-self: center">Starts over with the same topic.</span>
+        </div>
+      </section>
+
+      <section class="card" style="padding: 24px">
+        <p class="mono small" style="margin: 0 0 16px">CONNECTION LOST MID-RUN</p>
+        <div class="notice notice-warn" role="status">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M2 9a15 15 0 0120 0M5.5 12.5a10 10 0 0113 0M9 16a5 5 0 016 0M12 19.5v.1"/><path d="M4 4l16 16"/></svg>
+          <div>
+            <div style="font-weight: 600">Connection lost</div>
+            <div class="small" style="margin-top: 4px; color: var(--ink)">The run is saved on the server. Reconnect to pick it up where it stopped.</div>
+          </div>
+        </div>
+        <div style="margin-top: 18px; padding: 16px 18px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px">
+          <span style="display: inline-flex; gap: 6px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Researcher</span>
+          <span style="display: inline-flex; gap: 6px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Writer</span>
+          <span class="small">Critic · status unknown</span>
+        </div>
+        <div style="margin-top: 18px"><button type="button" class="btn btn-secondary">Reconnect</button></div>
+      </section>
+
+      <section class="card" style="padding: 24px">
+        <p class="mono small" style="margin: 0 0 16px">SAVING (BUTTONS LOCKED AFTER ONE CLICK)</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 24px">
+          <div style="display: flex; flex-direction: column; gap: 6px; flex: 1 1 160px">
+            <button type="button" class="btn btn-secondary" disabled>Reject</button>
+            <span class="small">Don't publish. Save this version as a draft.</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; flex: 1 1 160px">
+            <button type="button" class="btn btn-primary" disabled aria-busy="true"><span class="spin" style="border-color: color-mix(in srgb, var(--accent-ink) 30%, transparent); border-top-color: var(--accent-ink)" aria-hidden="true"></span>Saving…</button>
+            <span class="small">Publish this version.</span>
+          </div>
+        </div>
+        <p class="small" style="margin: 20px 0 0; padding-top: 16px; border-top: 1px solid var(--line)">The text area is read-only while saving, so the saved version always matches what was on screen.</p>
+      </section>
+
+      <section class="card" style="padding: 24px">
+        <p class="mono small" style="margin: 0 0 16px">REVIEW SUBMIT FAILED</p>
+        <div class="notice notice-danger" role="alert">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16v.5"/></svg>
+          <div>
+            <div style="font-weight: 600">Couldn't save your decision</div>
+            <div class="small" style="margin-top: 4px; color: var(--ink)">Your edits are still in the draft. Nothing was lost.</div>
+          </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px">
+          <button type="button" class="btn btn-secondary">Reject</button>
+          <button type="button" class="btn btn-primary">Try approve again</button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

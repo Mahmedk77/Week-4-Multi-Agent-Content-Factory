@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mobile submit failed</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./base.css">
+<link rel="stylesheet" href="./mobile.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="m-root">
+  <dc-import name="MobileReview" hint-size="390px,844px"></dc-import>
+  <div class="m-actionbar" style="display: block; padding: 14px 16px 24px; min-height: 270px">
+    <div class="m-notice danger" role="alert" style="padding: 12px 14px; margin-bottom: 12px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 1px"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16v.5"/></svg>
+      <div>
+        <div style="font-weight: 600; font-size: 14.5px">Couldn't save your decision</div>
+        <div class="small" style="margin-top: 2px; color: var(--ink)">Your edits are still in the draft. Nothing was lost.</div>
+      </div>
+    </div>
+    <button type="button" class="m-btn primary">Approve</button>
+    <button type="button" class="m-btn secondary" style="margin-top: 10px">Reject</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

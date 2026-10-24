@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Published</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./base.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="app" style="min-height: 1260px">
+  <header class="nav">
+    <a class="brand" href="Main.dc.html"><span class="brand-mark"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 11.5L8 4l5.5 7.5"/><circle cx="2.5" cy="11.5" r="1.2" fill="currentColor"/><circle cx="8" cy="4" r="1.2" fill="currentColor"/><circle cx="13.5" cy="11.5" r="1.2" fill="currentColor"/></svg></span>Draftloom</a>
+    <nav class="nav-links" aria-label="Main">
+      <a class="nav-link" href="Main.dc.html">New</a>
+      <a class="nav-link on" href="Posts.dc.html" aria-current="page">Published</a>
+      <a class="nav-link" href="PostsEmpty.dc.html">Drafts</a>
+    </nav>
+  </header>
+
+  <main class="page" style="padding-top: 48px; padding-bottom: 64px; max-width: 920px">
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between; margin-bottom: 24px">
+      <div>
+        <h1 class="serif" style="font-size: 40px; line-height: 1.1; font-weight: 500; letter-spacing: -0.015em; margin: 0">Published</h1>
+        <p class="small" style="margin: 6px 0 0">4 posts, newest first</p>
+      </div>
+      <div class="tabs" role="navigation" aria-label="Post lists">
+        <a class="tab on" href="Posts.dc.html" aria-current="page">Published</a>
+        <a class="tab" href="PostsEmpty.dc.html">Drafts</a>
+      </div>
+    </div>
+
+    <section class="card" style="overflow: hidden">
+      <article class="post" style="background: var(--surface)">
+        <div style="display: flex; gap: 20px; align-items: flex-start; justify-content: space-between">
+          <div style="min-width: 0">
+            <h2 class="post-title">Solid-State Batteries: What Changes for Electric Cars</h2>
+            <div class="post-meta"><span>Published Oct 24, 2026</span><span>3 sources</span><span>143 words</span></div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" aria-expanded="true">Hide</button>
+        </div>
+        <div style="margin-top: 24px; padding: 28px 32px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px">
+          <div class="prose" style="max-width: 640px">
+            <p>Solid-state batteries replace the liquid electrolyte in today's lithium-ion cells with a solid material. That swap promises higher energy density, faster charging and a lower risk of fire, which is why most major automakers are racing to bring them to market.</p>
+            <p>Prototype cells have shown ranges of more than 900 km in testing, though real-world figures will depend on pack design and vehicle weight. Charging from 10 to 80 percent in about ten minutes has been demonstrated in laboratory conditions.</p>
+            <p>Manufacturing is the main obstacle. Solid electrolytes are hard to produce at scale, and early cells have struggled with cracking over repeated charge cycles. Several companies now target limited production between 2027 and 2028.</p>
+            <h2>Sources</h2>
+            <ul>
+              <li><a href="https://battery-journal.example/progress" target="_blank" rel="noreferrer">Solid-state battery progress report</a> <span class="small">battery-journal.example</span></li>
+              <li><a href="https://autowire.example/roadmaps" target="_blank" rel="noreferrer">Automaker roadmaps compared</a> <span class="small">autowire.example</span></li>
+              <li><a href="https://electrochem-weekly.example/fast-charge" target="_blank" rel="noreferrer">Fast-charge lab results</a> <span class="small">electrochem-weekly.example</span></li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="post">
+        <div style="display: flex; gap: 20px; align-items: flex-start; justify-content: space-between">
+          <div style="min-width: 0">
+            <h2 class="post-title">Urban Heat Islands: Why Cities Run Hotter and What Helps</h2>
+            <div class="post-meta"><span>Published Oct 22, 2026</span><span>5 sources</span></div>
+            <p class="post-prev">Cities absorb and hold more heat than the countryside around them, a pattern known as the urban heat island effect. Dark roofs, paved surfaces and a lack of shade all contribute.</p>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" aria-expanded="false">Read</button>
+        </div>
+      </article>
+
+      <article class="post">
+        <div style="display: flex; gap: 20px; align-items: flex-start; justify-content: space-between">
+          <div style="min-width: 0">
+            <h2 class="post-title">A Very Long Title That Keeps Going to Show How the List Handles Wrapping Across Several Lines Without Breaking the Layout or Pushing the Controls Out of View</h2>
+            <div class="post-meta"><span>Published Oct 19, 2026</span><span>4 sources</span></div>
+            <p class="post-prev">Long titles wrap onto as many lines as they need and the preview stays clamped to two lines, so every row keeps a predictable rhythm.</p>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" aria-expanded="false">Read</button>
+        </div>
+      </article>
+
+      <article class="post">
+        <div style="display: flex; gap: 20px; align-items: flex-start; justify-content: space-between">
+          <div style="min-width: 0">
+            <h2 class="post-title">Microplastics in Tap Water: What the Studies Actually Measure</h2>
+            <div class="post-meta"><span>Published Oct 15, 2026</span><span>4 sources</span></div>
+            <p class="post-prev">Studies disagree about how much plastic is in tap water, partly because they count different particle sizes and use different detection methods.</p>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" aria-expanded="false">Read</button>
+        </div>
+      </article>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1260}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
