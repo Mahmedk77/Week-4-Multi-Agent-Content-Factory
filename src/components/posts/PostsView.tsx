@@ -41,6 +41,7 @@ function toItem(p: Post): PostItem {
         words: wordCount(bodyOf(p.content)),
         preview: previewOf(p.content),
         body: bodyOf(p.content),
+        content: p.content, // full markdown (title + sources), what the draft editor edits
     };
 }
 

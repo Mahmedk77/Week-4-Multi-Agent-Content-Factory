@@ -18,6 +18,9 @@ export function ipKey(ip: string): string {
     return createHash("sha256").update(`draftloom-unlock-ip:${ip}`).digest("hex");
 }
 
+// Every query gives up after 3s: a slow or unreachable Supabase must never stall the unlock screen.
+const timeout = () => AbortSignal.timeout(3000);
+
 export type Limit = { blocked: boolean; failures: number; retryAfterSeconds: number };
 
 // Counts this IP's wrong attempts in the window. If the database can't be reached the limit is skipped
@@ -29,7 +32,8 @@ export async function checkLimit(key: string): Promise<Limit> {
         .select("created_at")
         .eq("ip_hash", key)
         .gte("created_at", since)
-        .order("created_at", { ascending: true });
+        .order("created_at", { ascending: true })
+        .abortSignal(timeout());
     if (error) {
         console.warn(`[rate-limit] check skipped: ${error.message}`);
         return { blocked: false, failures: 0, retryAfterSeconds: 0 };
@@ -44,14 +48,14 @@ export async function checkLimit(key: string): Promise<Limit> {
 
 export async function recordFailure(key: string): Promise<void> {
     const db = getSupabase();
-    const { error } = await db.from("unlock_attempts").insert({ ip_hash: key });
+    const { error } = await db.from("unlock_attempts").insert({ ip_hash: key }).abortSignal(timeout());
     if (error) console.warn(`[rate-limit] could not record attempt: ${error.message}`);
     // Housekeeping: drop rows older than a day so the table stays tiny.
     const dayAgo = new Date(Date.now() - 24 * 60 * 60_000).toISOString();
-    await db.from("unlock_attempts").delete().lt("created_at", dayAgo);
+    await db.from("unlock_attempts").delete().lt("created_at", dayAgo).abortSignal(timeout());
 }
 
 export async function clearFailures(key: string): Promise<void> {
-    const { error } = await getSupabase().from("unlock_attempts").delete().eq("ip_hash", key);
+    const { error } = await getSupabase().from("unlock_attempts").delete().eq("ip_hash", key).abortSignal(timeout());
     if (error) console.warn(`[rate-limit] could not clear attempts: ${error.message}`);
 }
