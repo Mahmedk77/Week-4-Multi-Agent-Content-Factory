@@ -6,9 +6,9 @@ import { stepOfNode } from "./flow";
 import { ActivityLog, MobileStepper, Pipeline } from "./Pipeline";
 import { STEPS } from "./steps";
 
-type Props = { flow: Flow; steps: Step[]; onContinue: () => void; onStartOver: () => void };
+type Props = { flow: Flow; steps: Step[]; onContinue: () => void; onStartOver: () => void; onNewTopic: () => void };
 
-export function ProgressView({ flow, steps, onContinue, onStartOver }: Props) {
+export function ProgressView({ flow, steps, onContinue, onStartOver, onNewTopic }: Props) {
     const { problem } = flow;
     const failedStep = problem?.kind === "failed" ? stepOfNode(problem.error.node) ?? steps.find((s) => s.state === "error")?.key : null;
     const savingFailed = problem?.kind === "failed" && problem.error.node === "publisher";
@@ -68,6 +68,8 @@ export function ProgressView({ flow, steps, onContinue, onStartOver }: Props) {
                         <p className="text-[13px] text-muted text-center mt-3">Picks up where the run stopped.</p>
                     </div>
                 )}
+
+                <NewTopicButton onClick={onNewTopic} />
             </main>
 
             {/* ---------- Desktop ---------- */}
@@ -106,7 +108,17 @@ export function ProgressView({ flow, steps, onContinue, onStartOver }: Props) {
                 </section>
 
                 <ActivityLog flow={flow} steps={steps} />
+                <NewTopicButton onClick={onNewTopic} />
             </main>
         </>
+    );
+}
+
+// Leaves this run (it stays saved on the server, reachable from its ?run= link) and opens an empty form.
+function NewTopicButton({ onClick }: { onClick: () => void }) {
+    return (
+        <button type="button" onClick={onClick} className="block mx-auto mt-4 min-h-11 px-4 text-sm font-semibold text-muted hover:text-ink cursor-pointer">
+            Start a new topic instead
+        </button>
     );
 }

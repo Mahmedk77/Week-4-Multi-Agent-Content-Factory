@@ -29,7 +29,8 @@ export function ReviewView({ flow, steps, onEdit, onDecide, onRetrySave, onBack 
         <main
             data-mobile-focus
             data-fit-viewport
-            className="max-w-[1120px] mx-auto px-5 sm:px-10 pt-0 sm:pt-7 max-sm:pb-[calc(232px+env(safe-area-inset-bottom))] sm:pb-7 sm:h-full sm:flex sm:flex-col"
+            // Phone: full-height column above the fixed action bar, so the editor gets all the height that's left.
+            className="max-w-[1120px] mx-auto px-5 sm:px-10 pt-0 sm:pt-7 max-sm:h-dvh max-sm:pb-[calc(196px+env(safe-area-inset-bottom))] sm:pb-7 h-full flex flex-col"
         >
             {/* Phone top bar: back, status, theme */}
             <div className="sm:hidden flex items-center justify-between gap-2 pt-3 pb-2">
@@ -46,17 +47,28 @@ export function ReviewView({ flow, steps, onEdit, onDecide, onRetrySave, onBack 
                 <ThemeToggle variant="tile" />
             </div>
 
-            <div className="sm:flex-none">
-                <p className="hidden sm:block label-mono text-xs tracking-[.08em] text-accent mb-2">Waiting for your review</p>
-                <h1 className="font-serif font-medium text-[26px] sm:text-[34px] leading-[1.15] tracking-[-0.015em] max-sm:mt-2">Review the draft</h1>
-                <p className="hidden sm:block text-[13px] text-muted mt-1 mb-4 truncate">Topic: {flow.topic}</p>
+            <div className="flex-none sm:flex sm:items-end sm:justify-between sm:gap-6">
+                <div className="min-w-0">
+                    <p className="hidden sm:block label-mono text-xs tracking-[.08em] text-accent mb-2">Waiting for your review</p>
+                    <h1 className="font-serif font-medium text-[26px] sm:text-[34px] leading-[1.15] tracking-[-0.015em] max-sm:mt-2">Review the draft</h1>
+                    <p className="hidden sm:block text-[13px] text-muted mt-1 mb-4 truncate">Topic: {flow.topic}</p>
+                </div>
+                {/* Desktop: leave this run for later (phones use the back button above). */}
+                <button
+                    type="button"
+                    onClick={onBack}
+                    disabled={flow.saving != null}
+                    className="hidden sm:inline-flex flex-none mb-4 min-h-11 items-center px-4 rounded-[10px] text-sm font-semibold text-muted hover:text-ink hover:bg-surface2 cursor-pointer disabled:opacity-60"
+                >
+                    Start a new topic
+                </button>
             </div>
 
             <div className="hidden sm:block sm:flex-none"><PipelineSummary steps={steps} /></div>
-            <div className="sm:hidden mt-3"><StepChips steps={steps} /></div>
+            <div className="sm:hidden flex-none mt-3"><StepChips steps={steps} /></div>
 
             {flow.submitError && (
-                <div className="sm:hidden mt-3">
+                <div className="sm:hidden flex-none mt-3">
                     <Notice tone="danger" title="Couldn't save your decision">
                         {flow.submitError.retrySave ? "Your decision was recorded, but saving the post failed." : "Your edits are still in the draft. Nothing was lost."}
                     </Notice>
@@ -64,7 +76,7 @@ export function ReviewView({ flow, steps, onEdit, onDecide, onRetrySave, onBack 
             )}
 
             {/* Desktop: draft on the left fills the remaining height; critique + Approve/Reject on the right. */}
-            <div className="mt-3.5 sm:mt-5 sm:flex-1 sm:min-h-0 sm:flex sm:gap-6">
+            <div className="mt-3.5 sm:mt-5 flex-1 min-h-0 flex flex-col sm:flex-row sm:gap-6">
                 <DraftEditor value={flow.draft} onChange={onEdit} locked={locked} />
                 <div className="hidden sm:flex flex-col gap-4 min-h-0 flex-none w-[340px] lg:w-[380px]">
                     <CriticPanel critique={request.critique} rewritten={request.rewritten} />

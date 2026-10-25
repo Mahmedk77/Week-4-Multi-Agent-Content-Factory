@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Newsreader } from "next/font/google";
 import { Nav } from "@/components/Nav";
+import { RunProvider } from "@/components/run/RunProvider";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
@@ -59,8 +60,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body className="min-h-full flex flex-col">
-        <Nav />
-        <div className="flex-1 min-h-0 m-tabbar-space">{children}</div>
+        {/* RunProvider keeps the current run (and its live stream) alive while you switch tabs. */}
+        <RunProvider>
+          <Nav />
+          <div className="flex-1 min-h-0 m-tabbar-space">{children}</div>
+        </RunProvider>
       </body>
     </html>
   );

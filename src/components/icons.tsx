@@ -24,7 +24,9 @@ export const ArrowIcon = (p: IconProps) => <Svg {...p}><path d="M5 12h14M13 6l6 
 export const SunIcon = (p: IconProps) => <Svg {...p} strokeWidth={1.8}><circle cx="12" cy="12" r="4" /><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4" /></Svg>;
 export const MoonIcon = (p: IconProps) => <Svg {...p} strokeWidth={1.8}><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z" /></Svg>;
 export const ChevronIcon = (p: IconProps) => <Svg {...p}><path d="M6 9l6 6 6-6" /></Svg>;
-export const TrashIcon = (p: IconProps) => <Svg {...p} strokeWidth={1.8}><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" /></Svg>;
+export const ExpandIcon = (p: IconProps) => <Svg {...p}><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" /></Svg>;
+export const CollapseIcon = (p: IconProps) => <Svg {...p}><path d="M4 14h6v6M20 10h-6V4M10 14l-7 7M14 10l7-7" /></Svg>;
+export const TrashIcon =(p: IconProps) => <Svg {...p} strokeWidth={1.8}><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" /></Svg>;
 export const PlusIcon =(p: IconProps) => <Svg {...p}><path d="M12 5v14M5 12h14" /></Svg>;
 export const DocCheckIcon = (p: IconProps) => <Svg {...p} strokeWidth={1.8}><path d="M6 3h9l4 4v14H6z" /><path d="M9 14l2 2 4-4" /></Svg>;
 export const DocLinesIcon = (p: IconProps) => <Svg {...p} strokeWidth={1.8}><path d="M6 3h9l4 4v14H6z" /><path d="M9 13h6M9 17h4" /></Svg>;

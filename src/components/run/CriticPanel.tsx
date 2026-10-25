@@ -142,7 +142,7 @@ export function CriticBar({ critique, rewritten }: { critique: Critique | null; 
                 type="button"
                 aria-haspopup="dialog"
                 onClick={() => setOpen(true)}
-                className={`sm:hidden mt-3 w-full min-h-[60px] flex items-center gap-3 px-4 rounded-[18px] border text-left text-ink cursor-pointer ${n > 0 ? "bg-warn-soft border-warn" : "bg-accent-soft border-accent"}`}
+                className={`sm:hidden flex-none mt-3 w-full min-h-[60px] flex items-center gap-3 px-4 rounded-[18px] border text-left text-ink cursor-pointer ${n > 0 ? "bg-warn-soft border-warn" : "bg-accent-soft border-accent"}`}
             >
                 {n > 0 ? <WarnIcon size={22} className="flex-none text-warn" /> : <ShieldIcon size={22} className="flex-none text-accent" />}
                 <span className="flex-1 leading-tight">

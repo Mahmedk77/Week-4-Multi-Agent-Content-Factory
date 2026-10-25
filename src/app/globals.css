@@ -96,8 +96,9 @@ dialog[open].pop { animation: pop-in .2s ease-out; }
   }
 }
 
-/* No page scroll behind an open modal. */
-body:has(dialog[open]) {
+/* No page scroll behind an open modal or the full-screen draft editor. */
+body:has(dialog[open]),
+body:has([data-editor-expanded]) {
   overflow: hidden;
 }
 

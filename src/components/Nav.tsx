@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandMark, DocCheckIcon, DocLinesIcon, PlusIcon } from "./icons";
+import { useRun } from "./run/RunProvider";
 import { ThemeToggle } from "./ThemeToggle";
 
 const LINKS = [
@@ -25,6 +26,8 @@ export function Brand() {
 // Desktop: one top bar with links. Phone: wordmark + theme on top, links in a fixed bottom tab bar.
 export function Nav() {
     const pathname = usePathname();
+    // A run paused for review while you're on another tab: show a dot on "New" so it's easy to get back to.
+    const reviewWaiting = useRun().flow.view === "review";
     return (
         <>
             <header data-app-chrome className="hidden sm:flex flex-wrap gap-3 items-center justify-between px-10 py-4 border-b border-line">
@@ -57,22 +60,24 @@ export function Nav() {
                 data-app-chrome
                 data-mobile-chrome
                 aria-label="Main"
-                className="sm:hidden fixed inset-x-0 bottom-0 z-20 grid grid-cols-3 gap-1 px-3 pt-2 pb-[calc(12px+env(safe-area-inset-bottom))] bg-surface border-t border-line"
+                className="sm:hidden fixed inset-x-0 bottom-0 z-20 grid grid-cols-3 gap-1.5 px-2 pt-1.5 pb-[calc(6px+env(safe-area-inset-bottom))] bg-surface border-t border-line"
             >
                 {LINKS.map((l) => {
                     const on = pathname === l.href;
                     const Icon = l.icon;
+                    const waiting = l.href === "/" && reviewWaiting && !on;
                     return (
+                        // The whole cell is the tap target, and the whole cell is tinted when active.
                         <Link
                             key={l.href}
                             href={l.href}
                             aria-current={on ? "page" : undefined}
-                            className={`min-h-12 flex flex-col items-center gap-1 py-1 rounded-[14px] text-[11px] font-semibold no-underline ${on ? "text-accent" : "text-muted"}`}
+                            aria-label={waiting ? `${l.label} (a draft is waiting for your review)` : undefined}
+                            className={`relative min-h-[58px] flex flex-col items-center justify-center gap-1 rounded-2xl text-[11px] font-semibold no-underline select-none ${on ? "bg-accent-soft text-accent" : "text-muted active:bg-surface2"}`}
                         >
-                            <span className={`w-14 h-[30px] rounded-full grid place-items-center ${on ? "bg-accent-soft" : ""}`}>
-                                <Icon size={22} />
-                            </span>
+                            <Icon size={22} />
                             {l.label}
+                            {waiting && <span aria-hidden="true" className="absolute top-2 right-[calc(50%-18px)] w-2.5 h-2.5 rounded-full bg-accent ring-2 ring-surface" />}
                         </Link>
                     );
                 })}

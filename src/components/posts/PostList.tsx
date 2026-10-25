@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Post, Source } from "@/lib/run-types";
 import { errorMessage } from "@/lib/sse";
 import { domainOf } from "@/lib/text";
@@ -104,50 +104,38 @@ export function PostList({ items: allItems, label }: { items: PostItem[]; label:
                 ))}
             </ul>
 
-            {/* Phone list */}
+            {/* Phone list. Published: a "Latest" card + "Earlier" rows. Drafts: one plain list (drafts rank below published). */}
             <div className="sm:hidden" aria-label={label}>
-                <div className="relative">
-                    <button
-                        type="button"
-                        aria-haspopup="dialog"
-                        onClick={() => setOpenId(latest.id)}
-                        className="block w-full text-left px-5 py-[22px] rounded-[22px] bg-accent-soft cursor-pointer"
-                    >
-                        <span className="label-mono text-accent">Latest · {latest.day}</span>
-                        <h2 className="font-serif font-medium text-[26px] leading-[1.16] tracking-[-0.015em] mt-2.5 mb-2 pr-8 [overflow-wrap:anywhere]">{latest.title}</h2>
-                        <p className="text-[15px] leading-normal opacity-80 line-clamp-3">{latest.preview}</p>
-                        <span className="flex items-center justify-between mt-4">
-                            <span className="text-[13px] opacity-75">{plural(latest.sources.length, "source")} · {latest.words} words</span>
-                            <span className="inline-flex items-center gap-1.5 font-semibold text-sm text-accent">Read <ArrowIcon size={16} /></span>
-                        </span>
-                    </button>
-                    {/* A sibling, not inside the card button (buttons can't be nested). */}
-                    <DeleteButton post={latest} onClick={() => setConfirmId(latest.id)} className="absolute top-2.5 right-2.5" />
-                </div>
+                {latest.status === "published" && (
+                    <div className="relative">
+                        <button
+                            type="button"
+                            aria-haspopup="dialog"
+                            onClick={() => setOpenId(latest.id)}
+                            className="block w-full text-left px-5 py-[22px] rounded-[22px] bg-accent-soft cursor-pointer"
+                        >
+                            <span className="label-mono text-accent">Latest · {latest.day}</span>
+                            <h2 className="font-serif font-medium text-[26px] leading-[1.16] tracking-[-0.015em] mt-2.5 mb-2 pr-8 [overflow-wrap:anywhere]">{latest.title}</h2>
+                            <p className="text-[15px] leading-normal opacity-80 line-clamp-3">{latest.preview}</p>
+                            <span className="flex items-center justify-between mt-4">
+                                <span className="text-[13px] opacity-75">{plural(latest.sources.length, "source")} · {latest.words} words</span>
+                                <span className="inline-flex items-center gap-1.5 font-semibold text-sm text-accent">Read <ArrowIcon size={16} /></span>
+                            </span>
+                        </button>
+                        {/* A sibling, not inside the card button (buttons can't be nested). */}
+                        <DeleteButton post={latest} onClick={() => setConfirmId(latest.id)} className="absolute top-2.5 right-2.5" />
+                    </div>
+                )}
 
-                {earlier.length > 0 && (
-                    <>
-                        <h2 className="label-mono text-xs tracking-[.08em] text-muted mt-6 mb-2.5">Earlier</h2>
-                        <ul className="bg-surface border border-line rounded-[20px] shadow-card overflow-hidden">
-                            {earlier.map((p) => (
-                                <li key={p.id} className="flex items-center border-t border-line first:border-t-0">
-                                    <button
-                                        type="button"
-                                        aria-haspopup="dialog"
-                                        onClick={() => setOpenId(p.id)}
-                                        className="flex-1 min-w-0 flex gap-3 items-center text-left pl-[18px] pr-1 py-4 cursor-pointer"
-                                    >
-                                        <span className="flex-1 min-w-0">
-                                            <span className="block font-serif font-semibold text-[17.5px] leading-[1.3] [overflow-wrap:anywhere]">{p.title}</span>
-                                            <span className="block text-[13px] text-muted mt-1">{p.day} · {plural(p.sources.length, "source")} · {p.words} words</span>
-                                        </span>
-                                        <ChevronRightIcon size={18} className="flex-none text-muted" />
-                                    </button>
-                                    <DeleteButton post={p} onClick={() => setConfirmId(p.id)} className="mr-2" />
-                                </li>
-                            ))}
-                        </ul>
-                    </>
+                {latest.status === "published" && earlier.length > 0 && (
+                    <h2 className="label-mono text-xs tracking-[.08em] text-muted mt-6 mb-2.5">Earlier</h2>
+                )}
+                {(latest.status === "draft" || earlier.length > 0) && (
+                    <ul className="bg-surface border border-line rounded-[20px] shadow-card overflow-hidden">
+                        {(latest.status === "draft" ? items : earlier).map((p) => (
+                            <PhoneRow key={p.id} post={p} onOpen={() => setOpenId(p.id)} onDelete={() => setConfirmId(p.id)} />
+                        ))}
+                    </ul>
                 )}
             </div>
 
@@ -157,6 +145,30 @@ export function PostList({ items: allItems, label }: { items: PostItem[]; label:
 
             {confirming && <ConfirmDelete post={confirming} onCancel={() => setConfirmId(null)} onDeleted={() => onDeleted(confirming.id)} />}
         </>
+    );
+}
+
+// One row of the phone list. Drafts use plain (sans-serif) titles so they read as secondary to published posts.
+function PhoneRow({ post, onOpen, onDelete }: { post: PostItem; onOpen: () => void; onDelete: () => void }) {
+    const draft = post.status === "draft";
+    return (
+        <li className="flex items-center border-t border-line first:border-t-0">
+            <button
+                type="button"
+                aria-haspopup="dialog"
+                onClick={onOpen}
+                className={`flex-1 min-w-0 flex gap-3 items-center text-left pl-[18px] pr-1 cursor-pointer ${draft ? "py-3.5" : "py-4"}`}
+            >
+                <span className="flex-1 min-w-0">
+                    <span className={`block [overflow-wrap:anywhere] ${draft ? "font-semibold text-[15px] leading-snug" : "font-serif font-semibold text-[17.5px] leading-[1.3]"}`}>{post.title}</span>
+                    <span className="block text-[13px] text-muted mt-1">
+                        {draft ? `Saved ${post.day}` : post.day} · {plural(post.sources.length, "source")} · {post.words} words
+                    </span>
+                </span>
+                <ChevronRightIcon size={18} className="flex-none text-muted" />
+            </button>
+            <DeleteButton post={post} onClick={onDelete} className="mr-2" />
+        </li>
     );
 }
 
@@ -170,7 +182,7 @@ function StatusChip({ status }: { status: Post["status"] }) {
 
 function CloseButton({ onClick }: { onClick: () => void }) {
     return (
-        <button type="button" onClick={onClick} aria-label="Close" className="flex-none w-11 h-11 grid place-items-center rounded-full bg-surface2 text-ink cursor-pointer">
+        <button type="button" data-no-drag onClick={onClick} aria-label="Close" className="flex-none w-11 h-11 grid place-items-center rounded-full bg-surface2 text-ink cursor-pointer">
             <CrossIcon size={18} />
         </button>
     );
@@ -201,20 +213,80 @@ function PostModal({ post, onClose }: { post: PostItem; onClose: () => void }) {
     );
 }
 
+const SHEET_TOP = 56; // the collapsed sheet starts this far from the top of the screen
+
 // Phone reader: near-full-height bottom sheet. "N sources" swaps the body for the sources view.
+// Drag the handle or header: up = full screen (published posts only), down = back / close. Tapping the handle toggles too.
 function ReaderSheet({ post, onClose }: { post: PostItem; onClose: () => void }) {
     const [view, setView] = useState<"post" | "sources">("post");
+    const [expanded, setExpanded] = useState(false);
+    const [drag, setDrag] = useState<number | null>(null); // finger offset while dragging, null when not dragging
+    const dragStart = useRef<{ y: number; moved: boolean } | null>(null);
+    const suppressClick = useRef(false); // a drag on the handle must not also count as a tap
     const bodyRef = useRef<HTMLDivElement>(null);
     const n = post.sources.length;
+    const expandable = post.status === "published";
+
+    // The browser focuses the first button (the close button) when the dialog opens; start on the text instead.
+    useEffect(() => { bodyRef.current?.focus({ preventScroll: true }); }, []);
+
+    const onPointerDown = (e: React.PointerEvent) => {
+        if ((e.target as HTMLElement).closest("[data-no-drag]")) return;
+        dragStart.current = { y: e.clientY, moved: false };
+        e.currentTarget.setPointerCapture(e.pointerId);
+        setDrag(0);
+    };
+    const onPointerMove = (e: React.PointerEvent) => {
+        const start = dragStart.current;
+        if (!start) return;
+        let dy = e.clientY - start.y;
+        if (Math.abs(dy) > 6) start.moved = true;
+        if (dy < 0 && (!expandable || expanded)) dy = dy / 4; // resist pulling further than allowed
+        setDrag(dy);
+    };
+    const onPointerUp = () => {
+        const start = dragStart.current;
+        const dy = drag ?? 0;
+        dragStart.current = null;
+        setDrag(null);
+        if (!start?.moved) return; // a tap: the handle's onClick handles it
+        suppressClick.current = true;
+        if (dy < -40 && expandable) setExpanded(true);
+        else if (dy > 40 && expanded) setExpanded(false);
+        else if (dy > 140 && !expanded) onClose();
+    };
+
+    // While dragging, the sheet follows the finger; otherwise it animates to its collapsed or expanded spot.
+    const base = expanded ? 0 : SHEET_TOP;
+    const top = Math.max(0, base + (drag ?? 0));
+    const style: React.CSSProperties = {
+        top,
+        height: `calc(100dvh - ${top}px)`,
+        borderRadius: top === 0 ? 0 : undefined,
+        borderWidth: top === 0 ? 0 : undefined, // full screen: no frame around the edges
+        transition: drag === null ? "top .25s ease, height .25s ease, border-radius .25s ease" : "none",
+    };
+    const dragZone = { onPointerDown, onPointerMove, onPointerUp, onPointerCancel: onPointerUp, style: { touchAction: "none" as const } };
 
     return (
-        <Dialog variant="sheet" labelledBy="reader-title" onClose={onClose} className="sheet-tall">
-            <div className="flex flex-col h-full">
-                <div aria-hidden="true" className="flex-none w-[42px] h-[5px] rounded-full bg-line mx-auto mt-2.5 mb-1" />
+        <Dialog variant="sheet" labelledBy="reader-title" onClose={onClose} className="sheet-tall" style={style}>
+            <div className={`flex flex-col h-full ${top === 0 ? "pt-[env(safe-area-inset-top)]" : ""}`}>
+                <button
+                    type="button"
+                    {...dragZone}
+                    onClick={() => {
+                        if (suppressClick.current) { suppressClick.current = false; return; }
+                        if (expandable) setExpanded((x) => !x);
+                    }}
+                    aria-label={expandable ? (expanded ? "Shrink the reader" : "Expand the reader to full screen") : "Drag down to close"}
+                    className="flex-none w-full pt-2.5 pb-1.5 grid place-items-center cursor-grab"
+                >
+                    <span aria-hidden="true" className="w-[42px] h-[5px] rounded-full bg-line" />
+                </button>
 
                 {view === "post" ? (
                     <>
-                        <header className="flex-none flex gap-3 items-start justify-between px-5 pt-2 pb-3.5 border-b border-line">
+                        <header {...dragZone} className="flex-none flex gap-3 items-start justify-between px-5 pt-1 pb-3.5 border-b border-line">
                             <div className="min-w-0">
                                 <StatusChip status={post.status} />
                                 <h2 id="reader-title" className="font-serif font-medium text-[25px] leading-[1.18] tracking-[-0.015em] mt-2.5 mb-1.5 [overflow-wrap:anywhere]">
@@ -224,7 +296,7 @@ function ReaderSheet({ post, onClose }: { post: PostItem; onClose: () => void })
                             </div>
                             <CloseButton onClick={onClose} />
                         </header>
-                        <div ref={bodyRef} className="flex-1 min-h-0 overflow-y-auto overscroll-contain no-scrollbar px-5 pt-5 [&_.prose-draft_p]:text-[17px]">
+                        <div ref={bodyRef} tabIndex={-1} className="flex-1 min-h-0 overflow-y-auto overscroll-contain no-scrollbar px-5 pt-5 outline-none [&_.prose-draft_p]:text-[17px]">
                             <Markdown>{post.body}</Markdown>
                             <div className="h-6" />
                             <div aria-hidden="true" className="fade-bottom" />
@@ -238,8 +310,8 @@ function ReaderSheet({ post, onClose }: { post: PostItem; onClose: () => void })
                     </>
                 ) : (
                     <>
-                        <header className="flex-none flex gap-3 items-center px-4 pt-2 pb-3.5 border-b border-line">
-                            <button type="button" onClick={() => setView("post")} aria-label="Back to the post" className="flex-none w-11 h-11 grid place-items-center rounded-full bg-surface2 text-ink cursor-pointer">
+                        <header {...dragZone} className="flex-none flex gap-3 items-center px-4 pt-1 pb-3.5 border-b border-line">
+                            <button type="button" data-no-drag onClick={() => setView("post")} aria-label="Back to the post" className="flex-none w-11 h-11 grid place-items-center rounded-full bg-surface2 text-ink cursor-pointer">
                                 <BackIcon size={18} />
                             </button>
                             <div className="flex-1 min-w-0">
